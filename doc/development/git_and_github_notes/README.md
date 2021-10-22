@@ -54,3 +54,7 @@ To be correct it should be `GitHub Flavored Markdown`
 
 Tutorial: https://guides.github.com/features/mastering-markdown/  
 Specification: https://github.github.com/gfm/  
+
+
+## Git Hooks
+See [the separate document for Git Hooks](../development_env/githooks)
