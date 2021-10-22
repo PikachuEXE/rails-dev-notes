@@ -23,6 +23,6 @@ Ref:
 We use [lefthook](https://github.com/Arkweid/lefthook) as git hooks manager.  
 All the git hooks config are version controlled. See `lefthook.yml`  
 
-If you use `asdf` + `asdf-ruby` + `SourceTree`
-You might need to check-in and modify your git hook script
-https://dev.to/pikachuexe/how-to-use-sourcetree-with-git-hook-via-lefthook-running-bundle-exec-with-asdf-managing-ruby-versions-2j4k
+If you use `asdf` + `asdf-ruby` + `SourceTree`  
+You might need to check-in and modify your git hook script  
+https://dev.to/pikachuexe/how-to-use-sourcetree-with-git-hook-via-lefthook-running-bundle-exec-with-asdf-managing-ruby-versions-2j4k  
