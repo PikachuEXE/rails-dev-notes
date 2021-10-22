@@ -1,3 +1,7 @@
+This doc is copy and edited from a project's notes.  
+Might contains stuff for that project such as dependencies.  
+Those can simply be ignored.  
+
 ## XCode
 - You actually just need the **XCode Command Line Tools**  
 But the easiest way to download it is by installing **XCode**  
@@ -24,7 +28,7 @@ http://brew.sh/
 
 - Run `brew doctor` again to ensure it's done!
 
-## Use Homebrew to install things
+## Application Dependencies
 - `brew update`
 - `brew install imagemagick vips`  
   (Image processing)
@@ -38,34 +42,46 @@ http://brew.sh/
   https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
 - Install ElasticSearch (and follow the instructions on screen)  
   https://www.elastic.co/guide/en/elasticsearch/reference/current/brew.html
+- Install Node (see `Install Node.js` below)
 - `brew install yarn`
-- Install Node (see `NVM` below)
-- `brew install openssl@1.1`  
-  If you haven't installed it already
+- `brew install openssl@1.1`
 - `brew install cmake pkg-config`  
   (Required for installing some native gems)
-- Install Ruby (see `RVM` below)
-- Install PostgreSQL (see `PG setup` below)
+- Install Ruby (see `Install Ruby` below)
+- Install PostgreSQL (see `PostgreSQL Setup` below)
 - Setup `Git` (see `Git Setup` below)
-- Setup app to get it running (see `Get the app running` below)
+- Setup app to get it running (see `Spacious App Setup` below)
 
-## NVM
-For Intel Mac:
+## Install Node.js
+For **Intel Mac**:
 - `brew install nvm` (and follow the instructions on screen)
 - `nvm install --lts`
 - `nvm use --lts`
 
-For Apple Silicon:
+For **Apple Silicon**:
 https://github.com/nvm-sh/nvm/blob/master/README.md#macos-troubleshooting
 
-## RVM
-For Intel Mac:
-- Go [Official website](https://rvm.io/) for installation instruction  
+People wanting to use a more universal runtime version manager can try:
+- **asdf** - More universal runtime version manager
+  - Go [Official website](https://asdf-vm.com) for core installation instruction
+  - Go [Official plugin GH project for Node.js](https://github.com/asdf-vm/asdf-nodejs)
 
-For Apple Silicon:
+
+## Install Ruby
+
+For **Intel Mac**, pick one of the following:
+- **RVM** - Go [Official website](https://rvm.io/) for installation instruction  
+  Older project but solid, works well for Mac with Intel chip
+- **asdf** - More universal runtime version manager
+  - Go [Official website](https://asdf-vm.com) for core installation instruction
+  - Go [Official plugin GH project for Ruby](https://github.com/asdf-vm/asdf-ruby)  
+  
+  `asdf` is newer but seems less trouble in Ruby installation for Mac with M1 chip
+
+For **Apple Silicon**:
 - [Apple Silicon — M1 for Ruby developers](https://leonid.shevtsov.me/post/m1-for-ruby-developers/)
 
-### Gems
+### Installation Method for Some Native Gems on Apple Silicon
 `pg`:
 (From https://leonid.shevtsov.me/post/m1-for-ruby-developers/) 
 ```shell
@@ -82,19 +98,23 @@ gem install ruby-filemagic -- \
   --with-magic-dir=/usr/local/opt/libmagic
 ```
 
-## PG setup
+
+## PostgreSQL Setup
 
 ### Install
-`brew install postgresql`
+- `brew install postgresql` (for PostgreSQL Client)
+- [Postgres.app](https://postgresapp.com) (for PostgreSQL Server)  
+  Using the one from Homebrew works too but not as convenient as this
 
-### More info
-Check `brew info postgresql`
+### Potential Issues
+Only read if any issue encountered
 
-### Set the default encoding to UTF-8
+#### Set the default encoding to UTF-8
 http://stackoverflow.com/questions/16736891/pgerror-error-new-encoding-utf8-is-incompatible
 
-### If you have `Role does not exist` error
+#### If you have `Role does not exist` error
 http://stackoverflow.com/questions/8639424/role-does-not-exist-and-unable-to-create-database-when-using-postgresql
+
 
 ## Git Setup
 
@@ -106,57 +126,32 @@ These are examples, don't brainlessly **copy & paste**
 You can only do this through CUI (with git from homebrew)  
 - `$ git config --global credential.helper osxkeychain` (This is for https)
 
+
+## Git Setup
+
+### Global config
+You can do these by CUI or GUI  
+Use **your own** username and email address instead of **just copy & paste**  
+- `$ git config --global user.name "username"`  
+- `$ git config --global user.email "username@email.com"`  
+You can only do this through CUI (with git from homebrew)  
+- `$ git config --global credential.helper osxkeychain` (This is for https)
+
 ### GitHub
-**Follow [these steps](https://help.github.com/articles/generating-ssh-keys) to add SSH key, and add to GitHub**
+Follow [these steps](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)  
+to add personal access token(s) for each client & machine you use (probably need 1 only at the start)
+
+Use GitHub personal access tokens(PAT) as password when using Git clients to authenticate
 
 ### Git GUI
 **I recommend [SourceTree](http://www.sourcetreeapp.com/) for Git GUI**  
 **You just need to register (Free) to use it forever**  
 
+In case new version(s) got issue(s) you can [download older versions](https://www.sourcetreeapp.com/download-archives)  
+Or even fall back to latest 3.x (`3.2.1`)
+
 ### More about Git & GitHub
 See [Git and GitHub Notes](./git_and_github_notes) for more details  
-
-
-## Get the app running…
-
-- `cd <path-to-project>`
-- `cp .env.example .env.development.local` ([What other .env* files can I use?](https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use))  
-  For dev you change some values for better dev experience, such as:  
-  - `RACK_TIMEOUT_SERVICE_TIMEOUT`: Set to a high value to avoid the need to refresh the page due to long running asset compilation  
-  - `RAILS_CONFIG_EAGER_LOAD_ENABLED_IN_DEVELOPMENT`: Set to `true` for catching incorrect initialization, class declaration, etc.  
-  - `RAILS_CONFIG_ACTION_CONTROLLER_PERFORM_CACHING_ENABLED_IN_DEVELOPMENT`: Set to `true` for testing caching  
-- `cp config/database.yml.example config/database.yml`
-- `cp Passengerfile.json.example Passengerfile.json` & change the paths within it to your project path
-- Follow [`hostname.md`](hostname.md)
-- `yarn install`
-- `bundle install`
-- `gem install foreman`
-- `rake db:create`
-- Ask a senior dev to give you a recent DB dump from staging (1st time only)  
-  For senior dev see [`doc/deployment/amazon_aws/accounts.md`](../deployment/amazon_aws/accounts.md) to see how to login into AWS  
-- Restore the dump (see instructions at [`doc/development/postgresql/backup_and_restore.md`](postgresql/backup_and_restore.md))  
-- Optionally run **ElasticSearch Data Setup** following instructions at [`doc/development/elastic_search/data_setup.md`](elastic_search/data_setup.md)  
-- `foreman s -f Procfile.dev` to run the app  
-  Or you can run processes in different tabs/windows with `foreman s -f Procfile.dev [process_type]`  
-  See `Procfile.dev` for available process types
-- Visit `dev.spacious.hk:3000` / `https://dev.spacious.hk:3001` to confirm that there is no error
-
-### Git Hooks
-Automation for various checks when code change committed  
-Refers to `Dev Quick Links` > `Git Hooks`
-
-
-You might have issue running passenger  
-since the enterprise version has overridden the open source version  
-which always asks for a license file  
-To fix this:  
-```sh
-gem install --force passenger
-```
-This should ensure the open source version is used  
-
-
-To eliminate the local website SSL cert warning see [`.ssl/README.md`](../../.ssl/README.md)
 
 
 ## More Dev tools
@@ -184,8 +179,4 @@ To eliminate the local website SSL cert warning see [`.ssl/README.md`](../../.ss
 ### TypeScript
 - https://github.com/Microsoft/TypeScript/wiki/TypeScript-Editor-Support
 
-
-## Using default ports for development website
-
-[Relative Link to doc](development_env/dev_web_server_on_standard_ports/README.md)
 
